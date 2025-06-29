@@ -15,7 +15,6 @@ namespace BetterPauseMenu
         {
             if (IsInConfirmation)
             {
-                Plugin.Log.LogInfo("[BetterPauseMenu] Skipping PauseMenu.Pause() because confirmation is active.");
                 return false; // Skip PauseMenu.Pause while in confirmation
             }
             return true; // Allow normal PauseMenu.Pause otherwise
@@ -27,19 +26,18 @@ namespace BetterPauseMenu
             GameObject pauseMenu = pauseMenuField.GetValue(__instance) as GameObject;
             if (pauseMenu == null) return;
 
-            if (pauseMenu.transform.Find("Restart") != null) return;
+            if (pauseMenu.transform.Find("Reset") != null) return;
 
             Transform quitToMenuButton = pauseMenu.transform.Find("Quit to Menu");
             if (quitToMenuButton == null) return;
 
             RectTransform templateRect = quitToMenuButton.GetComponent<RectTransform>();
 
-            // === Add Restart button with confirmation ===
-            AddButton(pauseMenu, quitToMenuButton, templateRect, "Restart", -34f, () =>
+            // === Add Reset button with confirmation ===
+            AddButton(pauseMenu, quitToMenuButton, templateRect, "Reset", -34f, () =>
             {
                 ShowConfirmation(() =>
                 {
-                    Plugin.Log.LogInfo("[BetterPauseMenu] Restart confirmed. Restarting level.");
                     __instance.UnPause();
                     SceneManager.LoadScene("GameScene");
                 });
@@ -50,7 +48,6 @@ namespace BetterPauseMenu
             {
                 ShowConfirmation(() =>
                 {
-                    Plugin.Log.LogInfo("[BetterPauseMenu] Quit confirmed. Exiting game.");
                     __instance.UnPause();
                     Application.Quit();
                 });
@@ -124,10 +121,6 @@ namespace BetterPauseMenu
             areYouSureMenu.SetActive(true);
             if (pauseMenu != null) pauseMenu.SetActive(false);
 
-            Plugin.Log.LogInfo("[BetterPauseMenu] Confirmation menu opened. Listing children to find buttons:");
-            foreach (Transform child in areYouSureMenu.transform)
-                Plugin.Log.LogInfo($"[BetterPauseMenu] areYouSureMenu child: {child.name}");
-
             var yesButtonTransform = areYouSureMenu.transform.Find("Yes");
             var noButtonTransform = areYouSureMenu.transform.Find("No");
 
@@ -149,13 +142,11 @@ namespace BetterPauseMenu
 
             yesButton.onClick.AddListener(() =>
             {
-                Plugin.Log.LogInfo("[BetterPauseMenu] Confirmation: YES clicked.");
                 areYouSureMenu.SetActive(false);
                 if (pauseMenu != null) pauseMenu.SetActive(true);
                 IsInConfirmation = false;
 
                 // Force-hide UI panels before quitting
-                Plugin.Log.LogInfo("[BetterPauseMenu] Forcing hide of GameUI panels before quitting.");
                 var gameOverObj = GameObject.Find("GameOver");
                 var victoryObj = GameObject.Find("Victory");
                 var damageTotalsObj = GameObject.Find("DamageTotals");
@@ -169,7 +160,6 @@ namespace BetterPauseMenu
 
             noButton.onClick.AddListener(() =>
             {
-                Plugin.Log.LogInfo("[BetterPauseMenu] Confirmation: NO clicked.");
                 areYouSureMenu.SetActive(false);
                 if (pauseMenu != null) pauseMenu.SetActive(true);
                 IsInConfirmation = false;
