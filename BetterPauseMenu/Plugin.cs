@@ -14,7 +14,7 @@ namespace BetterPauseMenu
             Instance = this;
             Log = base.Logger;
 
-            Logger.LogInfo("Loading [BanishCards 1.0.1]");
+            Logger.LogInfo("Loading [BetterPauseMenu 1.0.0]");
 
             var harmony = new Harmony("AgusBut.BetterPauseMenu");
             harmony.PatchAll();

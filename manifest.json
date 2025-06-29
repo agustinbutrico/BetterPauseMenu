@@ -1,0 +1,9 @@
+{
+    "name": "BetterPauseMenu",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/agustinbutrico/BetterPauseMenu",
+    "description": "Adds a Restart button and a Quit to Desktop button with confirmation dialogs to the pause menu.",
+    "dependencies": [
+        "bbepis-BepInEx_Rogue_Tower-5.4.1900"
+    ]
+}
